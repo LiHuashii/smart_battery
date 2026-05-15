@@ -87,12 +87,11 @@ void DataReportFunction(void)
 {
     // Code to report data
 	uint8_t can_tx_buffer[65];
-	uint16_t len;
     for(;;)
     {
-		len = pack_bms_data(can_tx_buffer, &bms_basicinfo, &bms_cellvoltage);
+		pack_bms_data(can_tx_buffer, &bms_basicinfo, &bms_cellvoltage);
 		// LOGI("%d %d", len, FDCAN1_SendData(can_tx_buffer, len));
-		FDCAN1_SendData(can_tx_buffer, len);
+		FDCAN1_SendData(can_tx_buffer);
         osDelay(300);
     }
 }

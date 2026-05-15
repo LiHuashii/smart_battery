@@ -200,14 +200,14 @@ uint32_t CAN_ID = 0x199A946A;
   * @param  len:   数据长度（字节，最大 64）
   * @retval HAL 状态：HAL_OK / HAL_ERROR / HAL_BUSY / HAL_TIMEOUT
   */
-HAL_StatusTypeDef FDCAN1_SendData(uint8_t *pData, uint8_t len)
+HAL_StatusTypeDef FDCAN1_SendData(uint8_t *pData)
 {
     FDCAN_TxHeaderTypeDef TxHeader;
     uint8_t txData[64];  // 最大支持 64 字节
     uint32_t txFifoFreeLevel;
 
     /* 1. 参数检查 */
-    if (pData == NULL || len == 0 || len > 64)
+    if (pData == NULL)
     {
         return HAL_ERROR;
     }
@@ -223,7 +223,7 @@ HAL_StatusTypeDef FDCAN1_SendData(uint8_t *pData, uint8_t len)
     TxHeader.Identifier = CAN_ID;                     // 29 位扩展 ID
     TxHeader.IdType = FDCAN_EXTENDED_ID;          // 扩展帧
     TxHeader.TxFrameType = FDCAN_DATA_FRAME;      // 数据帧（非远程帧）
-    TxHeader.DataLength = len;                    // 实际字节长度（HAL 会自动转换为 DLC）
+    TxHeader.DataLength = FDCAN_DLC_BYTES_64;     // 实际字节长度（HAL 会自动转换为 DLC）
     TxHeader.ErrorStateIndicator = DISABLE;       // 不设置错误状态指示
     TxHeader.BitRateSwitch = ENABLE;              // 使能 BRS（因为初始化中启用了 FDCAN_FRAME_FD_BRS）
     TxHeader.FDFormat = FDCAN_FD_CAN;             // CAN FD 格式
@@ -231,7 +231,7 @@ HAL_StatusTypeDef FDCAN1_SendData(uint8_t *pData, uint8_t len)
     TxHeader.MessageMarker = 0;                   // 可选的消息标记
 
     /* 4. 复制数据到发送缓冲区 */
-    memcpy(txData, pData, len);
+    memcpy(txData, pData, 64);
 
     /* 5. 将消息加入发送 FIFO */
     return HAL_FDCAN_AddMessageToTxFifoQ(&hfdcan1, &TxHeader, txData);

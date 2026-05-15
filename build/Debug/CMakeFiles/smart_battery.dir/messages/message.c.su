@@ -2,5 +2,5 @@ D:\work_project\smart_battery\messages\message.c:16:13:ProcessBMSFrame	144	stati
 D:\work_project\smart_battery\messages\message.c:167:6:USART2_IQR	8	static
 D:\work_project\smart_battery\messages\message.c:178:6:BMS_SendData	16	static
 D:\work_project\smart_battery\messages\message.c:182:6:HAL_FDCAN_RxFifo0Callback	120	static
-D:\work_project\smart_battery\messages\message.c:203:19:FDCAN1_SendData	120	static
+D:\work_project\smart_battery\messages\message.c:203:19:FDCAN1_SendData	136	static
 D:\work_project\smart_battery\messages\message.c:248:10:pack_bms_data	40	static

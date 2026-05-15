@@ -4,5 +4,5 @@ D:\work_project\smart_battery\APP\app.c:35:6:app_init	16	static
 D:\work_project\smart_battery\APP\app.c:48:6:PowerSwitchFunction	8	static
 D:\work_project\smart_battery\APP\app.c:68:6:SensorReadFunction	8	static
 D:\work_project\smart_battery\APP\app.c:86:6:DataReportFunction	80	static
-D:\work_project\smart_battery\APP\app.c:100:6:IOUT_CHECKFunction	8	static
-D:\work_project\smart_battery\APP\app.c:147:6:LEDFunction	8	static
+D:\work_project\smart_battery\APP\app.c:99:6:IOUT_CHECKFunction	8	static
+D:\work_project\smart_battery\APP\app.c:146:6:LEDFunction	8	static
