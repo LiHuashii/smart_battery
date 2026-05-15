@@ -1,0 +1,3 @@
+D:\work_project\smart_battery\Core\Src\fdcan.c:30:6:MX_FDCAN1_Init	32	static
+D:\work_project\smart_battery\Core\Src\fdcan.c:94:6:HAL_FDCAN_MspInit	128	static
+D:\work_project\smart_battery\Core\Src\fdcan.c:138:6:HAL_FDCAN_MspDeInit	16	static

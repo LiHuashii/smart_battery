@@ -1,0 +1,7 @@
+D:/work_project/smart_battery/build/Debug/CMakeFiles/smart_battery.dir
+D:/work_project/smart_battery/build/Debug/CMakeFiles/edit_cache.dir
+D:/work_project/smart_battery/build/Debug/CMakeFiles/rebuild_cache.dir
+D:/work_project/smart_battery/build/Debug/cmake/stm32cubemx/CMakeFiles/STM32_Drivers.dir
+D:/work_project/smart_battery/build/Debug/cmake/stm32cubemx/CMakeFiles/FreeRTOS.dir
+D:/work_project/smart_battery/build/Debug/cmake/stm32cubemx/CMakeFiles/edit_cache.dir
+D:/work_project/smart_battery/build/Debug/cmake/stm32cubemx/CMakeFiles/rebuild_cache.dir
