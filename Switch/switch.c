@@ -31,8 +31,12 @@ void PowerOn(void){
 	if(HAL_GPIO_ReadPin(IN_Check_GPIO_Port, IN_Check_Pin) == GPIO_PIN_RESET) {//判断电池是否插入充电器，如果插入
 		HAL_Delay(300);//等待300ms，防止抖动误判
 		if(HAL_GPIO_ReadPin(IN_Check_GPIO_Port, IN_Check_Pin) == GPIO_PIN_RESET){//确定已经插入充电器 此时控制板电源已经打开
-			BMS_MakeControlChargeMosCmd(true, bms_tx_buffer, &bms_tx_len);//打开充电开关
-			BMS_SendData(bms_tx_buffer, bms_tx_len);
+			// HAL_GPIO_WritePin(PWRCTRL_GPIO_Port, PWRCTRL_Pin, GPIO_PIN_RESET);
+			// for(uint8_t i = 0;i < 2;i++){
+			// 	BMS_MakeControlChargeMosCmd(true, bms_tx_buffer, &bms_tx_len);//打开充电开关
+			// 	BMS_SendData(bms_tx_buffer, bms_tx_len);
+			// 	HAL_Delay(50);
+			// }
 			led_show_type = LED_IN;//充电指示
 			power_mode = POWER_IN;//充电模式
 			return;
@@ -151,10 +155,13 @@ void PowerOff(void){
 		if(pressTime >= 1500) {
 			//发送关机命令
 			osThreadSuspend(SensorReadHandle);
-			osDelay(10);
+			osDelay(50);
 			BMS_MakeControlDischargeMosCmd(false, bms_tx_buffer, &bms_tx_len);
 			BMS_SendData(bms_tx_buffer, bms_tx_len);
-			osDelay(20);
+			osDelay(50);
+			BMS_MakeControlChargeMosCmd(false, bms_tx_buffer, &bms_tx_len);
+			BMS_SendData(bms_tx_buffer, bms_tx_len);
+			osDelay(50);
             while(HAL_GPIO_ReadPin(PWRCHECK_GPIO_Port, PWRCHECK_Pin) == GPIO_PIN_RESET) {//等待电源按键完全松开
                 osDelay(100);
             }

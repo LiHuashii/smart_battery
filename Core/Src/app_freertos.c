@@ -51,8 +51,8 @@
 osThreadId_t PowerSwitchHandle;
 const osThreadAttr_t PowerSwitch_attributes = {
   .name = "PowerSwitch",
-  .priority = (osPriority_t) osPriorityHigh,
-  .stack_size = 128 * 4
+  .priority = (osPriority_t) osPriorityHigh3,
+  .stack_size = 512 * 4
 };
 /* Definitions for SensorRead */
 osThreadId_t SensorReadHandle;

@@ -52,8 +52,20 @@ void PowerSwitchFunction(void)
 	// __HAL_UART_ENABLE_IT(&huart2,UART_IT_TC);
 	// HAL_UART_Receive_DMA(&huart2, bms_rx_buffer, sizeof(bms_rx_buffer)-1);
 	if(power_mode == POWER_OUT){
-		BMS_MakeControlDischargeMosCmd(true, bms_tx_buffer, &bms_tx_len);
-		BMS_SendData(bms_tx_buffer, bms_tx_len);
+		for(uint8_t j = 0;j < 3;j++){
+			LOGI("Sending discharge command %d", j+1);
+			BMS_MakeControlDischargeMosCmd(true, bms_tx_buffer, &bms_tx_len);
+			BMS_SendData(bms_tx_buffer, bms_tx_len);
+			HAL_Delay(50);
+		}
+	}else if(power_mode == POWER_IN){
+		osDelay(1000);
+		for(uint8_t i = 0;i < 3;i++){
+			LOGI("Sending charge command %d", i+1);
+			BMS_MakeControlChargeMosCmd(true, bms_tx_buffer, &bms_tx_len);
+			BMS_SendData(bms_tx_buffer, bms_tx_len);
+			HAL_Delay(50);
+		}
 	}
 	
     for(;;)
@@ -68,24 +80,28 @@ uint8_t close = 0;
 void SensorReadFunction(void)
 {
     // Code to read sensor data
-	osDelay(1000);
+	osDelay(2000);
 	
     for(;;)
     {
 		BMS_MakeReadBasicInfoCmd(bms_tx_buffer, &bms_tx_len);
-		// osMessageQueuePut(bms_send_bufHandle, bms_tx_buffer, 0, 0);
 		BMS_SendData(bms_tx_buffer, bms_tx_len);
 		osDelay(500);
+
 		BMS_MakeReadCellVoltageCmd(bms_tx_buffer, &bms_tx_len);
-		// osMessageQueuePut(bms_send_bufHandle, bms_tx_buffer, 0, 0);
 		BMS_SendData(bms_tx_buffer, bms_tx_len);
 		osDelay(500);
+
+		// BMS_MakeControlChargeMosCmd(true, bms_tx_buffer, &bms_tx_len);
+		// 	BMS_SendData(bms_tx_buffer, bms_tx_len);
+		// 	osDelay(500);
     }
 }
 
 void DataReportFunction(void)
 {
     // Code to report data
+	osDelay(3000);
 	uint8_t can_tx_buffer[65];
     for(;;)
     {
@@ -99,6 +115,7 @@ void DataReportFunction(void)
 void IOUT_CHECKFunction(void)
 {
 	// Code to check input/output
+	osDelay(2000);
 	for(;;)
 	{
 		if(power_mode == POWER_OUT){
@@ -108,7 +125,7 @@ void IOUT_CHECKFunction(void)
 				if(HAL_GPIO_ReadPin(OUT_Check_GPIO_Port,OUT_Check_Pin) == GPIO_PIN_SET){
 					//立即关闭放电
 					osThreadSuspend(SensorReadHandle);
-					osDelay(10);
+					osDelay(50);
 					BMS_MakeControlDischargeMosCmd(false, bms_tx_buffer, &bms_tx_len);
 					BMS_SendData(bms_tx_buffer, bms_tx_len);
 					osDelay(50);
@@ -126,7 +143,7 @@ void IOUT_CHECKFunction(void)
 				if(HAL_GPIO_ReadPin(IN_Check_GPIO_Port,IN_Check_Pin) == GPIO_PIN_SET){
 					//立即关闭充电
 					osThreadSuspend(SensorReadHandle);
-					osDelay(10);
+					osDelay(50);
 					BMS_MakeControlChargeMosCmd(false, bms_tx_buffer, &bms_tx_len);
 					BMS_SendData(bms_tx_buffer, bms_tx_len);
 					osDelay(50);

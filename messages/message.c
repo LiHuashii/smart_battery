@@ -220,7 +220,7 @@ HAL_StatusTypeDef FDCAN1_SendData(uint8_t *pData)
     }
 
     /* 3. 配置发送头 */
-    TxHeader.Identifier = CAN_ID;                     // 29 位扩展 ID
+    TxHeader.Identifier = CAN_ID;                 // 29 位扩展 ID
     TxHeader.IdType = FDCAN_EXTENDED_ID;          // 扩展帧
     TxHeader.TxFrameType = FDCAN_DATA_FRAME;      // 数据帧（非远程帧）
     TxHeader.DataLength = FDCAN_DLC_BYTES_64;     // 实际字节长度（HAL 会自动转换为 DLC）
